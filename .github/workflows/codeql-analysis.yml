@@ -31,3 +31,13 @@ jobs:
       uses: github/codeql-action/autobuild@v3
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
+    - name: CSV export
+      uses: advanced-security/ghas-to-csv@v3
+      env:
+        GITHUB_PAT: ${{ secrets.REPORT_TOKEN }}  # you need to set a PAT
+    - name: Upload CSV
+      uses: actions/upload-artifact@v4
+      with:
+        name: ghas-data
+        path: ${{ github.workspace }}/*.csv
+        if-no-files-found: error
